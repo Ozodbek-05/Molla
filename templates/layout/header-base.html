@@ -1,0 +1,198 @@
+{% load static %}
+{% load i18n %}
+{% load my_tags %}
+<header class="header">
+    <div class="header-top">
+        <div class="container">
+            <div class="header-left">
+                <div class="header-dropdown">
+                    <a href="#">Usd</a>
+                    <div class="header-menu">
+                        <ul>
+                            <li><a href="#">Eur</a></li>
+                            <li><a href="#">Usd</a></li>
+                        </ul>
+                    </div><!-- End .header-menu -->
+                </div><!-- End .header-dropdown -->
+
+                <div class="header-dropdown">
+                    {% get_current_language as current_lang %}
+                    {% get_available_languages as all_langs %}
+                    <a href="#">{{ current_lang }}</a>
+                    <div class="header-menu">
+                        <ul>
+                            {% for lang in all_langs %}
+                                {% if current_lang != lang.0 %}
+                                    <li><a href="{% get_full_url request lang.0 %}">{{ lang.0|upper }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div><!-- End .header-menu -->
+                </div><!-- End .header-dropdown -->
+            </div><!-- End .header-left -->
+
+            <div class="header-right">
+                <ul class="top-menu">
+                    <li>
+                        <a href="#">Links</a>
+                        <ul>
+                            <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                            <li><a href="../products/wishlist.html"><i class="icon-heart-o"></i>Wishlist
+                                <span>(3)</span></a></li>
+                            <li><a href="../pages/about.html">About Us</a></li>
+                            <li><a href="../pages/contact.html">Contact Us</a></li>
+                            <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                        </ul>
+                    </li>
+                </ul><!-- End .top-menu -->
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-top -->
+
+    <div class="header-middle sticky-header">
+        <div class="container">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button>
+
+                <a href="index.html" class="logo">
+                    <img src="{% static 'assets/images/logo.png' %}" alt="Molla Logo" width="105" height="25">
+                </a>
+
+                <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        {% url 'pages:home' as home_url %}
+                        {% url 'pages:contact' as contact_url %}
+                        {% url 'blogs:list' as blogs_url %}
+                        {% url 'pages:about' as about_url %}
+                        {% url 'products:list' as products_url %}
+                        <li class="{% if request.path == home_url %}megamenu-container active{% endif %}">
+                            <a href="{% url 'pages:home' %}">{% trans 'Home' %}</a>
+                        </li>
+                        <li class="{% if request.path == products_url %}megamenu-container active{% endif %}">
+                            <a href="{% url 'products:list' %}">{% trans 'Products' %}</a>
+                        </li>
+                        <li class="{% if request.path == blogs_url %}megamenu-container active{% endif %}">
+                            <a href="{% url 'blogs:list' %}">{% trans 'Blogs' %}</a>
+                        </li>
+                        <li class="{% if request.path == about_url %}megamenu-container active{% endif %}">
+                            <a href="{% url 'pages:about' %}">{% trans 'About' %}</a>
+                        </li>
+                        <li class="{% if request.path == contact_url %}megamenu-container active{% endif %}">
+                            <a href="{% url 'pages:contact' %}">{% trans 'Contact' %}</a>
+                        </li>
+                    </ul><!-- End .menu -->
+                </nav><!-- End .main-nav -->
+            </div><!-- End .header-left -->
+
+            <div class="header-right">
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                    <form action="{% url 'products:list' %}" method="get">
+                        <div class="header-search-wrapper">
+                            <label for="q" class="sr-only">Search</label>
+                            <input value="{{ request.GET.q }}"
+                                   type="search" class="form-control" name="q" id="q" placeholder="Search in..."
+                                   required>
+                        </div><!-- End .header-search-wrapper -->
+                    </form>
+                </div><!-- End .header-search -->
+                <div class="dropdown compare-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" data-display="static" title="Compare Products"
+                       aria-label="Compare Products">
+                        <i class="icon-random"></i>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <ul class="compare-products">
+                            <li class="compare-product">
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                <h4 class="compare-product-title"><a href="product.html">Blue Night Dress</a></h4>
+                            </li>
+                            <li class="compare-product">
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                <h4 class="compare-product-title"><a href="product.html">White Long Skirt</a></h4>
+                            </li>
+                        </ul>
+
+                        <div class="compare-actions">
+                            <a href="#" class="action-link">Clear All</a>
+                            <a href="#" class="btn btn-outline-primary-2"><span>Compare</span><i
+                                    class="icon-long-arrow-right"></i></a>
+                        </div>
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .compare-dropdown -->
+
+                <div class="dropdown cart-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false" data-display="static">
+                        <i class="icon-shopping-cart"></i>
+                        <span class="cart-count">2</span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-cart-products">
+                            <div class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="product.html">Beige knitted elastic runner shoes</a>
+                                    </h4>
+
+                                    <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $84.00
+                                            </span>
+                                </div><!-- End .product-cart-details -->
+
+                                <figure class="product-image-container">
+                                    <a href="product.html" class="product-image">
+                                        <img src="{% static 'assets/images/products/cart/product-1.jpg' %}"
+                                             alt="product">
+                                    </a>
+                                </figure>
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                            </div><!-- End .product -->
+
+                            <div class="product">
+                                <div class="product-cart-details">
+                                    <h4 class="product-title">
+                                        <a href="product.html">Blue utility pinafore denim dress</a>
+                                    </h4>
+
+                                    <span class="cart-product-info">
+                                                <span class="cart-product-qty">1</span>
+                                                x $76.00
+                                            </span>
+                                </div><!-- End .product-cart-details -->
+
+                                <figure class="product-image-container">
+                                    <a href="product.html" class="product-image">
+                                        <img src="{% static 'assets/images/products/cart/product-2.jpg' %}"
+                                             alt="product">
+                                    </a>
+                                </figure>
+                                <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                            </div><!-- End .product -->
+                        </div><!-- End .cart-product -->
+
+                        <div class="dropdown-cart-total">
+                            <span>Total</span>
+
+                            <span class="cart-total-price">$160.00</span>
+                        </div><!-- End .dropdown-cart-total -->
+
+                        <div class="dropdown-cart-action">
+                            <a href="../products/cart.html" class="btn btn-primary">View Cart</a>
+                            <a href="../products/checkout.html"
+                               class="btn btn-outline-primary-2"><span>Checkout</span><i
+                                    class="icon-long-arrow-right"></i></a>
+                        </div><!-- End .dropdown-cart-total -->
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .cart-dropdown -->
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-middle -->
+</header><!-- End .header -->
