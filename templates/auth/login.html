@@ -26,15 +26,16 @@
 							</ul>
 							<div class="tab-content">
 							    <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-							    	<form action="#">
+							    	<form action="{% url 'pages:home' %}" method="post">
+										{% csrf_token %}
 							    		<div class="form-group">
 							    			<label for="singin-email-2">Username or email address *</label>
-							    			<input type="text" class="form-control" id="singin-email-2" name="singin-email" required>
+							    			<input type="text" class="form-control" id="singin-email-2" name="email" required>
 							    		</div><!-- End .form-group -->
 
 							    		<div class="form-group">
 							    			<label for="singin-password-2">Password *</label>
-							    			<input type="password" class="form-control" id="singin-password-2" name="singin-password" required>
+							    			<input type="password" class="form-control" id="singin-password-2" name="password" required>
 							    		</div><!-- End .form-group -->
 
 							    		<div class="form-footer">
@@ -70,8 +71,18 @@
 							    	</div><!-- End .form-choice -->
 							    </div><!-- .End .tab-pane -->
 							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-							    	<form action="{% url 'accounts:register' %}", method="post">
+							    	<form action="{% url 'pages:home' %}" method="post">
 										{% csrf_token %}
+										<ul>
+											{% if messages %}
+											<h3>Errors: </h3>
+											{% for message in messages %}
+											<li>
+												{{ message }}
+											</li>
+											{% endfor %}
+											{% endif %}
+										</ul>
 							    		<div class="form-group">
 							    			<label for="register-email-2">Your email address *</label>
 							    			<input type="email" class="form-control" id="register-email-2" name="email" required>
@@ -79,7 +90,7 @@
 
 							    		<div class="form-group">
 							    			<label for="register-password-2">Username *</label>
-							    			<input type="password" class="form-control" id="register-password-2" name="username" required>
+							    			<input type="text" class="form-control" id="register-username-2" name="username" required>
 							    		</div><!-- End .form-group -->
 
 										<div class="form-group">
@@ -89,7 +100,7 @@
 
 										<div class="form-group">
 							    			<label for="register-password-2">Confirm Password *</label>
-							    			<input type="password" class="form-control" id="register-password-2" name="password2" required>
+							    			<input type="password" class="form-control" id="register-confirm-password-2" name="password2" required>
 							    		</div><!-- End .form-group -->
 
 							    		<div class="form-footer">
