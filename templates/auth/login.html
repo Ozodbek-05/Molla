@@ -26,7 +26,7 @@
 							</ul>
 							<div class="tab-content">
 							    <div class="tab-pane fade" id="signin-2" role="tabpanel" aria-labelledby="signin-tab-2">
-							    	<form action="{% url 'pages:home' %}" method="post">
+							    	<form action="{% url 'accounts:login' %}" method="post">
 										{% csrf_token %}
 							    		<div class="form-group">
 							    			<label for="singin-email-2">Username or email address *</label>
@@ -71,7 +71,7 @@
 							    	</div><!-- End .form-choice -->
 							    </div><!-- .End .tab-pane -->
 							    <div class="tab-pane fade show active" id="register-2" role="tabpanel" aria-labelledby="register-tab-2">
-							    	<form action="{% url 'pages:home' %}" method="post">
+							    	<form action="{% url 'accounts:register' %}" method="post">
 										{% csrf_token %}
 										<ul>
 											{% if messages %}

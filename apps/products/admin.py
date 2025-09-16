@@ -25,7 +25,7 @@ class ProductQuantityInline(admin.TabularInline):
 @admin.register(ProductModel)
 class ProductModelAdmin(admin.ModelAdmin):
     list_display = ['title', 'brand', 'price', 'discount']
-    list_filter = ['brand', 'categories']
+    list_filter = ['brand', 'categories', 'created_at']
     search_fields = ['title', 'short_description']
     filter_horizontal = ['categories']
 
@@ -41,9 +41,10 @@ class ProductModelAdmin(admin.ModelAdmin):
     )
 
 
+# Register other models normally
 @admin.register(ProductCategory)
 class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['title', 'created_at']
     search_fields = ['title']
 
 

@@ -1,0 +1,143 @@
+{% load static %}
+<aside class="col-lg-3 order-lg-first">
+    <div class="sidebar sidebar-shop">
+        <div class="widget widget-clean">
+            <label>Filters:</label>
+            <a href="{% url 'products:list' %}" class="sidebar-filter-clear">Clean All</a>
+        </div><!-- End .widget widget-clean -->
+
+        <div class="widget widget-collapsible">
+            <h3 class="widget-title">
+                <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true"
+                   aria-controls="widget-1">
+                    Category
+                </a>
+            </h3><!-- End .widget-title -->
+
+            <div class="collapse show" id="widget-1">
+                <div class="widget-body">
+                    <div class="filter-items filter-items-count">
+                        {% for cat in categories %}
+                            <div class="filter-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                           {% if request.GET.cat == cat.id|stringformat:'i' %}checked{% endif %}
+                                           id="cat-1">
+
+                                    <label class="custom-control-label"
+                                           for="cat-1">
+                                        <a style="color: black;" onclick="addUrlParameter('cat', {{ cat.id }})" ">
+                                            {{ cat.title }}
+                                        </a>
+                                    </label>
+
+
+                                </div><!-- End .custom-checkbox -->
+                                <span class="item-count">{{ cat.products.count }}</span>
+                            </div><!-- End .filter-item -->
+                        {% endfor %}
+                    </div><!-- End .filter-items -->
+                </div><!-- End .widget-body -->
+            </div><!-- End .collapse -->
+        </div><!-- End .widget -->
+
+        <div class="widget widget-collapsible">
+            <h3 class="widget-title">
+                <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true"
+                   aria-controls="widget-2">
+                    Size
+                </a>
+            </h3><!-- End .widget-title -->
+
+            <div class="collapse show" id="widget-2">
+                <div class="widget-body">
+                    <div class="filter-items">
+                        {% for size in sizes %}
+                            <div class="filter-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                           {% if request.GET.size == size.id|stringformat:'i' %}checked{% endif %}
+                                           id="size-3">
+                                    <label class="custom-control-label"
+                                           for="size-3">
+                                        <a style="color: black" onclick="addUrlParameter('size', {{ size.id }})">
+                                            {{ size.title }}
+                                        </a>
+                                    </label>
+                                </div><!-- End .custom-checkbox -->
+                            </div><!-- End .filter-item -->
+                        {% endfor %}
+                    </div><!-- End .filter-items -->
+                </div><!-- End .widget-body -->
+            </div><!-- End .collapse -->
+        </div><!-- End .widget -->
+
+        <div class="widget widget-collapsible">
+            <h3 class="widget-title">
+                <a data-toggle="collapse" href="#widget-3" role="button" aria-expanded="true"
+                   aria-controls="widget-3">
+                    Colour
+                </a>
+            </h3><!-- End .widget-title -->
+
+            <div class="collapse show" id="widget-3">
+                <div class="widget-body">
+                    <div class="filter-colors">
+                        {% for color in colors %}
+                            <a onclick="addUrlParameter('color',  {{ color.id }})"
+                               {% if request.GET.color == color.id|stringformat:'i' %}class="selected"{% endif %}
+                               style="background: {{ color.code }};"><span
+                                    class="sr-only">Color Name</span></a>
+                        {% endfor %}
+                    </div><!-- End .filter-colors -->
+                </div><!-- End .widget-body -->
+            </div><!-- End .collapse -->
+        </div><!-- End .widget -->
+
+        <div class="widget widget-collapsible">
+            <h3 class="widget-title">
+                <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true"
+                   aria-controls="widget-4">
+                    Brand
+                </a>
+            </h3><!-- End .widget-title -->
+
+            <div class="collapse show" id="widget-4">
+                <div class="widget-body">
+                    <div class="filter-items">
+                        {% for brand in brands %}
+                            <div class="filter-item">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input"
+                                           {% if request.GET.brand == brand.id|stringformat:'i' %}checked{% endif %}
+                                           id="brand-1">
+                                    <label class="custom-control-label"
+                                           for="brand-1">
+                                        <a style="color: black" onclick="addUrlParameter('brand', {{ brand.id }})">
+                                            {{ brand.name }}
+                                        </a>
+                                    </label>
+                                </div><!-- End .custom-checkbox -->
+                            </div><!-- End .filter-item -->
+                        {% endfor %}
+
+                    </div><!-- End .filter-items -->
+                </div><!-- End .widget-body -->
+            </div><!-- End .collapse -->
+        </div><!-- End .widget -->
+    </div><!-- End .sidebar sidebar-shop -->
+</aside><!-- End .col-lg-3 -->
+
+{% block extra_js %}
+    <script>
+        function addUrlParameter(name, value) {
+            let searchParams = new URLSearchParams(window.location.search)
+            if (searchParams.has(name) && searchParams.get(name) == value) {
+                searchParams.delete(name)
+            } else {
+                searchParams.set(name, value)
+            }
+            window.location.search = searchParams.toString()
+        }
+    </script>
+{% endblock %}

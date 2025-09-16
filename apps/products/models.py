@@ -1,14 +1,16 @@
+from datetime import datetime
+import pytz
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-class ProductCategory(models.Model):
+from apps.pages.models import BaseModel
+
+
+class ProductCategory(BaseModel):
     title = models.CharField(max_length=128)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
-
 
     class Meta:
         verbose_name = 'product category'
@@ -50,7 +52,7 @@ class ProductBrand(models.Model):
         verbose_name_plural = 'product brands'
 
 
-class ProductModel(models.Model):
+class ProductModel(BaseModel):
     title = models.CharField(max_length=100)
     short_description = models.TextField()
     long_description = models.TextField()
@@ -65,6 +67,24 @@ class ProductModel(models.Model):
         validators=[MaxValueValidator(100), MinValueValidator(1)]
     )
 
+    def is_new(self):
+        tashkent_tz = pytz.timezone('Asia/Tashkent')
+        now = datetime.now(tashkent_tz)
+
+        # Ensure created_at is timezone-aware
+        if self.created_at.tzinfo is None:
+            created_at = tashkent_tz.localize(self.created_at)
+        else:
+            created_at = self.created_at.astimezone(tashkent_tz)
+
+        diff = now - created_at
+        return diff.days <= 3
+
+    def is_discount(self):
+        if self.discount:
+            return self.discount > 0
+        return False
+
     def __str__(self):
         return self.title
 
@@ -73,7 +93,7 @@ class ProductModel(models.Model):
         verbose_name_plural = 'products'
 
 
-class ProductQuantity(models.Model):
+class ProductQuantity(BaseModel):
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='products_quantity')
     quantity = models.PositiveSmallIntegerField()
 
@@ -81,7 +101,7 @@ class ProductQuantity(models.Model):
     colors = models.ForeignKey(ProductColor, on_delete=models.CASCADE, related_name='products_quantity')
 
 
-class ProductImageModel(models.Model):
+class ProductImageModel(BaseModel):
     product = models.ForeignKey(ProductModel, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='products/')
 
